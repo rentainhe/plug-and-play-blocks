@@ -91,3 +91,18 @@ def create_coco_file(example, image_path,save_path):
     "GQA": ("/home/luoyp/rth/GQA/GQA", "coco/annotations/GQA_images.json")
     数据集名称: (数据集图片位置，json文件位置）
 '''
+
+############
+# Forth Step
+############
+'''
+    需要修改 extract_grid_feature.py 文件
+    add:
+        dataset_to_folder_mapper['VG'] = '/disk1/luoyp/rth/feats/vg-grid' ( where to store the extracted features )
+        
+        parser.add_argument("--dataset", help="name of the dataset", default="coco_2014_train",
+                        choices=['coco_2014_train', 'coco_2014_val', 'coco_2015_test','VG']) ( add your own datasets to the command line )
+                        
+    tricks:
+        save the features as np.float16 will help you to save the SSD space
+'''

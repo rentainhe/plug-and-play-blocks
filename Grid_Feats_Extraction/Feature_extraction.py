@@ -7,9 +7,9 @@ from PIL import Image
 import os
 import tqdm
 from Grid_Feats_Extraction.COCO_format import coco_example
-############
-# First Step
-############
+##############
+# First Step #
+##############
 '''
     You need to create json file of your dataset and this json file should be in COCO.json format.
     This json file should have four keys: ['info', 'images', 'licenses', 'categories']
@@ -23,9 +23,9 @@ def show_example(example):
 
 # show_example(example)
 
-#############
-# Second Step
-#############
+###############
+# Second Step #
+###############
 '''
     These APIs will help you to create your own coco.json file
 '''
@@ -82,9 +82,9 @@ def create_coco_file(example, image_path,save_path):
 # example:
 # create_coco_file(example,image_path="/home/luoyp/rth/VG/VG_100K_2/", save_path="/home/luoyp/rth/VG/VG_100K_images.json")
 
-############
-# Third Step
-############
+##############
+# Third Step #
+##############
 '''
     需要将数据集注册到 detectron2.data.datasets.builtin.py 文件下
     格式为
@@ -92,9 +92,9 @@ def create_coco_file(example, image_path,save_path):
     数据集名称: (数据集图片位置，json文件位置）
 '''
 
-############
-# Forth Step
-############
+##############
+# Forth Step #
+##############
 '''
     需要修改 extract_grid_feature.py 文件
     add:

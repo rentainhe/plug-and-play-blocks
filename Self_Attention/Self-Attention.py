@@ -4,8 +4,15 @@ import torch.nn.functional as F
 import math
 from Self_Attention.LayerNorm import LayerNorm
 from Self_Attention.Fc import MLP, FC
+from Self_Attention.Cfg import Config
 '''
     Transformer Encoder Layer
+    All you need to do is define a config file:
+    which contains:
+        HIDDEN_SIZE: dimension of Linear
+        DROPOUT_R: dropout rate
+        MULTI_HEAD: Head Nums
+        FF_SIZE: Feed Forward Size   
 '''
 class MHAtt(nn.Module):
     def __init__(self, __C):
@@ -117,3 +124,6 @@ class SA(nn.Module):
         ))
 
         return y
+
+__C = Config()
+sa = SA(__C)

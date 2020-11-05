@@ -18,6 +18,8 @@ class Patch_Dropout(nn.Module):
         self.stride = stride
         self.padding = padding
         self.padding_size = padding_size
+        assert padding_size[0] // kernel_size[0] == 0
+        assert padding_size[1] // kernel_size[1] == 0
 
     def Padding(self, input, height, width):
         '''

@@ -4,7 +4,9 @@ import torch.nn.functional as F
 import random
 import numpy as np
 
-
+'''
+    Set a fixed Seed for training
+'''
 def set_seed(args):
     random.seed(args.seed)
     np.random.seed(args.seed)

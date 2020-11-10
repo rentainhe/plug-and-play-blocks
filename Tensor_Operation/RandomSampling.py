@@ -78,6 +78,19 @@ def Filter(input_tensor):
     output = output.view(b, c, -1)
     return input_tensor, int(n)
 
+class TotalRandomSamplingV2(nn.Module):
+    def __init__(self, ratio=0.5):
+        # input must be 3-d (b,c,feature_nums)
+        super(TotalRandomSamplingV2, self).__init__()
+        self.ratio = ratio
+    def forward(self, x):
+        b, c, nums = x.size()  # 传入数据的维度
+        total_index = nums
+        index_num = int(nums*self.ratio)
+        probs = torch.ones(b,total_index)
+        index = torch.multinomial(probs,index_num).unsqueeze(1)
+        x = x.gather(2,index.repeat(1,c,1))
+        return x
 
 class TotalRandomSampling(nn.Module):
     '''

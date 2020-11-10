@@ -18,4 +18,4 @@ def get_b16_config():
     return config
 
 config =  get_b16_config()
-print(config)
+print(config.transformer.dropout_rate)

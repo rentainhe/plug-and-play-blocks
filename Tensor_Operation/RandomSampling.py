@@ -136,16 +136,12 @@ class SparseRandomSampling(nn.Module):
         x = self.unfold(x).view(b, c, self.kernel_size[0] * self.kernel_size[1],
                                 ((h - self.kernel_size[0]) // self.stride + 1) * (
                                             (w - self.kernel_size[1]) // self.stride + 1))
-        hot = torch.zeros(x.size())
         probs = torch.ones([b, self.kernel_size[0] * self.kernel_size[1]], device=x.device, dtype=x.dtype)
         sample_ind = torch.cat([torch.multinomial(p, self.nums).unsqueeze(0) for p in probs], 0).unsqueeze(1).unsqueeze(-1)
         for i in range(x.size()[-1] - 1):
             temp = torch.cat([torch.multinomial(p, self.nums).unsqueeze(0) for p in probs], 0).unsqueeze(1).unsqueeze(
                 -1)  # b,1,nums,1
             sample_ind = torch.cat((sample_ind, temp), 3)
-        hot.scatter_(2, sample_ind.repeat(1, c, 1, 1), 1)
-        hot = hot.view(temp_size)
-        hot = F.fold(hot, output_size=(h, w), kernel_size=self.kernel_size, stride=self.stride)
         x = x.gather(2, sample_ind.repeat(1, c, 1, 1))
         x = x.transpose(2, 3).contiguous().view(1, c, feature_h * feature_w*self.nums)
         return x

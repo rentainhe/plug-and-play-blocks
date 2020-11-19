@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch
 import torch.nn.functional as F
+from einops import rearrange, repeat, reduce
 
 class DistanceSampling(nn.Module):
     def __init__(self, num=1, kernel_size=(2, 2), stride=2, p=2, mode='Pairwise'):
@@ -51,7 +52,7 @@ class DistanceSampling(nn.Module):
         return output
 
 
-def Transpose_tensor(input_tensor):
+def Transpose_tensor(x):
     '''
         input: b,c,h,w
         if h > w:
@@ -59,10 +60,10 @@ def Transpose_tensor(input_tensor):
         else:
             output: b,c,h,w
     '''
-    b, c, h, w = input_tensor.size()
+    b, c, h, w = x.size()
     if (h > w):
-        input_tensor = input_tensor.transpose(2, 3)
-    return input_tensor
+        output = rearrange(x,'b c h w -> b c w h')
+    return output
 
 
 def Filter(input_tensor):

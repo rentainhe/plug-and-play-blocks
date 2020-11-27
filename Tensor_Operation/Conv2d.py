@@ -7,6 +7,10 @@ from torch.nn import Conv2d
 from torch.nn.modules.utils import _single, _pair, _triple, _repeat_tuple
 import math
 
+'''
+    使用unfold和fold实现了Conv2d操作
+    groups参数有问题
+'''
 class Conv2d(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size,stride=1,padding=0,dilation=1,groups=1,bias=True):
         super(Conv2d, self).__init__()
@@ -35,8 +39,8 @@ class Conv2d(nn.Module):
 
     def forward(self,x):
         b,c,h,w = x.size()
-        out_h = (h - self.kernel_size[0] + self.padding*2) // self.stride[0] + 1
-        out_w = (w - self.kernel_size[1] + self.padding*2) // self.stride[1] + 1
+        out_h = (h - self.kernel_size[0] + self.padding*2) // self.stride[0] + 1 # 下一层 feature map的 h
+        out_w = (w - self.kernel_size[1] + self.padding*2) // self.stride[1] + 1 # 下一层 feature map的 w
         inp_unf = self.unfold(x) # b, c*kh*kw, patch_nums
         weight = self.weight.view(self.weight.size(0), -1).t()
         out_unf = inp_unf.transpose(1,2).matmul(weight).transpose(1,2)

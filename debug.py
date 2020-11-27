@@ -68,10 +68,6 @@ class RandomConv2d(nn.Module):
         return out
 
 
-r = myConv(4,16,2)
-t = torch.randn(2,4,4,4)
-print(r(t).size())
-
 
 
 
